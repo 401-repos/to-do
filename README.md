@@ -6,7 +6,7 @@
 
 ### Links and Resources
 
-- [front-end application](http://xyz.com) (when applicable)
+- [front-end application](https://festive-meitner-8ac018.netlify.app/)
 - [Code Sandbox](https://codesandbox.io/s/to-do-ljpb9?file=/src/components/todo)
 
 ### Setup
