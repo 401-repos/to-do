@@ -3,11 +3,9 @@ function useForm(list) {
     const [formItem, setFormItem] = useState({ assignee: "", text: "", difficulty: "", date: '' });
     const handleInputChange = (e) => {
         const prevItem = formItem;
-        console.log(e);
         setFormItem({ ...prevItem, [e.target.name]: e.target.value });
     };
     const handleEdit = async (id) => {
-        console.log('here');
         const item = list.filter((elem) => {
             return elem._id === id;
         });

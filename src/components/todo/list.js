@@ -1,10 +1,37 @@
 import { Badge, Toast } from "react-bootstrap";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { PreferencesContext } from "../../contexts/preferences-context";
+
 
 function TodoList(props) {
+  const { displayNumber, displayComplete, pageNum, setPageButtons, sortBy } = useContext(PreferencesContext);
+  const [items , setItems] = useState([]);
+  useEffect(()=>{
+    let items = [...props.list];
+    if (!displayComplete) {
+      items = items.filter(elem => {
+        return !elem.complete
+      });
+    }
+    items.sort((a, b) => {
+      if (sortBy === 'date') {
+        return new Date(a.date) < new Date(b.date) ? -1 : 1;
+      }
+      if (typeof a[sortBy] === 'string') {
+        return a[sortBy].toLowerCase() < b[sortBy].toLowerCase() ? 1 : -1;
+      }
+      return a[sortBy] < b[sortBy] ? 1 : -1;
+    });
+    setPageButtons(items.length / displayNumber);
+    
+    items = items.slice((displayNumber * (pageNum - 1)), (displayNumber * pageNum));
+    setItems(items)
+  },[displayNumber,displayComplete,pageNum,setPageButtons,sortBy,props.list ]);
+
+
   return (
     <div style={{ width: '400px' }}>
-      {props.list.map((item) => (
+      {items.map((item) => (
         <Toast
           animation
           onClose={() => props.handleDelete(item._id)}
@@ -17,7 +44,7 @@ function TodoList(props) {
               onClick={() => props.handleComplete(item._id)}
               size="sm"
               pill
-              variant={`${item.complete ? 'danger' : 'success'}`}
+              variant={`${item.complete ? 'success' : 'danger'}`}
             >{`${item.complete ? 'completed' : 'pending'}`}</Badge>
             <strong className="mr-auto ml-2">{item.assignee}</strong>
           </Toast.Header>
