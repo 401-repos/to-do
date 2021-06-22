@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 function useAjax() {
     const [list, setList] = useState([]);
-
     const baseURL = "https://api-server-0.herokuapp.com/";
-    const addItem = async (item , setFormItem) => {
+    const addItem = async (item, setFormItem) => {
         setFormItem({ assignee: "", text: "", difficulty: "", date: '' });
         const newItem = { ...item };
         let myList = [...list];
@@ -48,16 +47,18 @@ function useAjax() {
     };
     useEffect(() => {
         async function fetch() {
-          const res = await axios({
-            method: 'get',
-            baseURL: baseURL,
-            url: '/todo',
-          });
-          setList(res.data);
+            const res = await axios({
+                method: 'get',
+                baseURL: baseURL,
+                url: '/todo',
+            });
+            const newList = res.data;
+            setList(newList);
         }
         fetch();
-      }, []);
-    return [toggleComplete, handleDelete, addItem , list , setList];
+    }, []);
+
+    return [toggleComplete, handleDelete, addItem, list, setList];
 }
 
 export default useAjax;

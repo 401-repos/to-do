@@ -13,7 +13,7 @@ function TodoForm(props) {
     <>
       <Form onSubmit={handleSubmit}>
         <h3>Add Item</h3>
-        <Form.Group className="mb-3" controlId="formBasicText">
+        <Form.Group id={1} className="mb-3" controlId="formBasicText">
           <Form.Label>To Do Item</Form.Label>
           <Form.Control
             name="text"
@@ -25,7 +25,7 @@ function TodoForm(props) {
             value={props.formItem.text}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicText">
+        <Form.Group id={2} className="mb-3" controlId="formBasicText">
           <Form.Label>Due Date</Form.Label>
           <Form.Control
             required={true}
@@ -36,7 +36,7 @@ function TodoForm(props) {
             value={props.formItem.date}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicText">
+        <Form.Group id={3} className="mb-3" controlId="formBasicText">
           <Form.Label>Assigned To</Form.Label>
           <Form.Control
             type="text"
@@ -48,7 +48,7 @@ function TodoForm(props) {
             value={props.formItem.assignee}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicRange">
+        <Form.Group id={4} className="mb-3" controlId="formBasicRange">
           <Form.Label>Difficulty Rating</Form.Label>
           <Form.Control
             type="range"
