@@ -10,7 +10,7 @@ const Title = (props) => {
         <Container>
             <Navbar.Collapse className="justify-content-end">
                 <Navbar.Text>
-                {/* {`Signed in as:`}  <a href="#login">{user.username.toUpperCase()}</a> */}
+                {`Signed in as:`}  <a href="#login">{user.username.toUpperCase()}</a>
                 </Navbar.Text>
             </Navbar.Collapse>
         </Container>
