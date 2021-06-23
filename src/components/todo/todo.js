@@ -67,9 +67,7 @@ function ToDo(props) {
           <Col>
             <Button size="sm" variant={displayComplete ? "dark" : "info"} onClick={() => { setDisplayComplete(!displayComplete) }}>{displayComplete ? "Hide Complete Tasks" : "Show Complete Tasks"}</Button></Col>
           <Col>
-
             <Form.Label> {"Sort By:"}
-
               <select onChange={e => setSortBy(e.target.value)}>
                 <option value="difficulty">{"Difficulty"}</option>
                 <option value="date">{"Date"}</option>
