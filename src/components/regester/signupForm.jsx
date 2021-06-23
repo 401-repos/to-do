@@ -53,7 +53,6 @@ const SignupForm = (props) => {
                                     <option>Choose...</option>
                                     <option value="admin">Admin</option>
                                     <option value="editor">Editor</option>
-                                    <option value="writer">Writer</option>
                                     <option value="user">User</option>
                                 </Form.Control>
                             </Form.Group>

@@ -20,8 +20,7 @@ const AuthContextProvider = (props) => {
         });
         if (user.data) {
             cookie.save('auth-token', user.data.token)
-            console.log(user.data.user);
-            setUser(user.data.user)
+            setUser(jwt.decode(user.data.token))
             setIsLoggedIn(true);
         }
 
@@ -34,49 +33,33 @@ const AuthContextProvider = (props) => {
             data: { username, password, email, role }
         });
         if (result.data) {
+            console.log(result.data);
             cookie.save('auth-token', result.data.token)
-            setUser(result.data.user)
+            setUser(jwt.decode(result.data.token))
             setIsLoggedIn(true);
         }
-    }
-    const decodeToken = async () => {
-        const token = cookie.load('auth-token');
-        const result = await axios({
-            baseURL: url,
-            url: '/user',
-            method: "get",
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (result) {
-            return result.data;
-        }
-        return false;
-        // const data = jwt.decode(token);
-        // if(data){
-        //     return data;
-        // }
-        // return false;
     }
     const logOut = () => {
         setUser({});
         setIsLoggedIn(false);
         cookie.remove('auth-token')
     }
+
     useEffect(() => {
-        const fetchApi = async () => {
-            const data = await decodeToken();
-            console.log("heeeeeeeer", data);
-            if (data) {
-                setUser(data.user);
-                setIsLoggedIn(true);
-            }
+        const token = cookie.load('auth-token');
+        if (!token) {
+            return false;
         }
-        fetchApi();
+        const data = jwt.decode(token);
+        if (data) {
+            setUser(data)
+            setIsLoggedIn(true);
+        }
     }, [])
+
+
     return (
-        <AuthContext.Provider value={{ signIn, setIsLoggedIn, isLoggedIn, signup, user, logOut }}>
+        <AuthContext.Provider value={{ signIn, isLoggedIn, signup, user, logOut }}>
             {props.children}
         </AuthContext.Provider>
     );
