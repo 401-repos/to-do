@@ -1,12 +1,14 @@
 import { Badge, Toast } from "react-bootstrap";
 import React, { useContext, useEffect, useState } from "react";
 import { PreferencesContext } from "../../contexts/preferences-context";
+import { AuthContext } from "../../contexts/authContext";
 
 
 function TodoList(props) {
+  const { user } = useContext(AuthContext);
   const { displayNumber, displayComplete, pageNum, setPageButtons, sortBy } = useContext(PreferencesContext);
-  const [items , setItems] = useState([]);
-  useEffect(()=>{
+  const [items, setItems] = useState([]);
+  useEffect(() => {
     let items = [...props.list];
     if (!displayComplete) {
       items = items.filter(elem => {
@@ -23,10 +25,10 @@ function TodoList(props) {
       return a[sortBy] < b[sortBy] ? 1 : -1;
     });
     setPageButtons(items.length / displayNumber);
-    
+
     items = items.slice((displayNumber * (pageNum - 1)), (displayNumber * pageNum));
     setItems(items)
-  },[displayNumber,displayComplete,pageNum,setPageButtons,sortBy,props.list ]);
+  }, [displayNumber, displayComplete, pageNum, setPageButtons, sortBy, props.list]);
 
 
   return (
@@ -37,11 +39,12 @@ function TodoList(props) {
           onClose={() => props.handleDelete(item._id)}
           key={item._id}
         >
-          <Toast.Header>
+          <Toast.Header closeButton={user.capabilities.includes("delete")}
+>
             <Badge
               style={{ cursor: 'pointer' }}
               className="mr-auto m-1"
-              onClick={() => props.handleComplete(item._id)}
+              onClick={() => {user.capabilities.includes("update") && props.handleComplete(item._id)}}
               size="sm"
               pill
               variant={`${item.complete ? 'success' : 'danger'}`}
